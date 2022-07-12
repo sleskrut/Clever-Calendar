@@ -51,24 +51,34 @@ def find_word(s, etalon):
         word = '0'
     return word
 
-s0 = 'Сегодня полить цветы'
+
+def cover_string(A):
+    S = ' '
+    for i in range(0, len(A), 1):
+        if A[i] != ' ':
+            S = S + A[i]
+            S = S + ' '
+    return S
+
+s0 = 'сегодня полить цветы'
 
 List_of_words = deсover_string(s0)
 for i in range(0, len(List_of_words), 1):
     List_of_words[i] = List_of_words[i].lower()
 print(List_of_words)
-
 Word = find_word(List_of_words, Days)
 print(Word)
 
-s00 = s0
-s00 = s00.lower()
-
+s00 = List_of_words
+print(len(s00))
 for i in range(0, len(s00), 1):
+    print(i)
     if s00[i] == Word:
-       del s00[i]
-print(s00)
+        s00[i] = ''
 
+print(s00)
+p = cover_string(s00)
+print (p)
 List_of_Doing = ['', '', '', '', '', '', '']
 
 
