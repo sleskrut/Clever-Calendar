@@ -126,4 +126,5 @@ for i in range(0, len(A), 1):  # Сделать из этого функцию f
         else:
             print('Не найдено даты')
 print(C)
+print('OK')
 # See PyCharm help at https://www.jetbrains.cm/help/pycharm/
