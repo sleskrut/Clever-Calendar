@@ -1,3 +1,19 @@
+# This is a sample Python script.
+
+# Press Shift+F10 to execute it or replace it with your code.
+# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+
+
+def print_hi(name):
+    # Use a breakpoint in the code line below to debug your script.
+    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+
+
+# Press the green button in the gutter to run the script.
+if __name__ == '__main__':
+    print_hi('PyCharm')
+
+
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
     print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
@@ -153,7 +169,7 @@ def find_data(A):
 
 
 def find_time(A):
-    C = ['', '']
+    C = ['', '', '']
     for i in range(0, len(A), 1):  # Находим время (типа 21:10 или 10:22)
         B = A[i]
         x = 0
@@ -168,64 +184,43 @@ def find_time(A):
                 if B[2] == ':':
                     C[0] = B[0] + B[1]
                     C[1] = B[3] + B[4]
+                    C[2] = True
                 else:
                     print('Неправильно указан формат времени')
             if (C[0] == '') and (C[1] == ''):
                 print('Неправильно указан формат времени')
             return C
+    return C
 
 
 def FIND(s, M):
     A = deсover_string(s)
     Word = find_word_data(A, Days)
     M[2] = Word
-    if M[2] != '':
-        M[5] = inf(A, Word)
-        M[5] = M[5].strip()
     if M[2] == '':
         C = find_month(A, Months)
         M[0] = C[0]
         M[1] = C[1]
         M[2] = C[2]
-        # for j in range(0, 3, 1):
-        #if A[i] == C[j]:
 
     if M[0] == M[1] == M[2] == '':
         C = find_data(A)
         M[0] = C[0]
         M[1] = C[1]
         M[2] = C[2]
-    if M[0] == M[1] == M[2] == '':
-        C = find_time(A)
+    print(A)
+    C = find_time(A)
+    if C[0] != '':
         M[3] = C[0]
         M[4] = C[1]
     return M
 
 
-s0 = 'полить цветы сегодня'
+s0 = 'полить цветы 21.12.20 в 10:45'
 print(s0)
-List_of_words = deсover_string(s0)
-List_of_words = low(List_of_words)
-print(List_of_words)
-Word = find_word_data(List_of_words, Days)
-print(Word)
-
-s00 = List_of_words
-s00 = inf(s00, Word)
-s00 = s00.strip()  # Удаление пробелов
-print(s00)
-List_of_Doing[5] = s00
-print(List_of_Doing)
-
-A = ['Пойти', 'гулять', '10', 'декабря', '2023', 'в', '10:56', '21.12.23']
-B = find_data(A)
-print(B)
-C = find_month(A, Months)
-print(C)
-print('OK')
-D = find_time(A)
-print(D)
-Word = find_word_data(A, Days)
-print(Word)
+# A = ['Пойти', 'гулять', '10', 'декабря', '2023', 'завтра', '10:56', '21.12.23']
+G = FIND(s0, List_of_Doing)
+print(G)
 # See PyCharm help at https://www.jetbrains.cm/help/pycharm/
 # quit()
+# See PyCharm help at https://www.jetbrains.com/help/pycharm/
