@@ -12,16 +12,6 @@ def print_hi(name):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     print_hi('PyCharm')
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
 print('Hello world')
 print('Добро пожаловать в умный календарь')
 s0 = ' '  # Далее объявляются ключевые массивы
@@ -56,11 +46,17 @@ def low(s): # Понижение регистра всех букв
 low(Days)
 
 
-def inf(s, moment_word):
-    for i in range(0, len(s), 1):
-        if s[i] == moment_word:
-            s[i] = ''
-    p = cover_string(s)
+def inf(A):
+    p = ''
+    L = list()
+    for i in range(0, len(A), 1):
+        if (A[i] not in Days) and (A[i] not in Years) and (A[i] not in Months) and (A[i].isnumeric() == False):
+            B = A[i]
+            if len(B) >= 3:
+                if (B[2] != '.') and (B[2] != ':'):
+                    p = p + B
+                    p = p + ' '
+    p = p.strip()
     return p
 
 
@@ -99,7 +95,7 @@ def find_word_data(s, etalon):
         print('Ошибка даты. В предложении 2 и более слов, обозначающих дату. Введите предложение с одним таким словом')
         word = ''
     if x == 0:
-        print('Не найдено слова, обозначающего дату')
+        # print('Не найдено слова, обозначающего дату')
         word = ''
     return word
 
@@ -118,7 +114,7 @@ def find_month(s, etalon):
         print('Ошибка даты. В предложении 2 и более слов, обозначающих дату. Введите предложение с одним таким словом')
         word = ''
     if x == 0:
-        print('Не найдено слова, обозначающего дату')
+        #print('Не найдено слова, обозначающего дату')
         word = ''
     C[1] = word
     C[0] = C[2] = ''
@@ -213,11 +209,15 @@ def FIND(s, M):
     if C[0] != '':
         M[3] = C[0]
         M[4] = C[1]
+        M[5] = inf(A)
     return M
 
 
 s0 = 'полить цветы 21.12.20 в 10:45'
 print(s0)
+H = deсover_string(s0)
+print(H)
+K = inf(H)
 # A = ['Пойти', 'гулять', '10', 'декабря', '2023', 'завтра', '10:56', '21.12.23']
 G = FIND(s0, List_of_Doing)
 print(G)
