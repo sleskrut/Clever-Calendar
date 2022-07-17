@@ -80,12 +80,14 @@ def find_word_data(s, etalon):
 
 
 def find_month(s, etalon):
+    C = ['', '', '']
     x = 0
     for j in range(0, len(s), 1):  # Находим ключевые слова (сегодня, завтра, через 3 дня и т. п)
         for i in range(0, len(etalon), 1):
             if s[j] == etalon[i]:
                 x += 1
                 word = etalon[i]
+                y = j
 
     if x >= 2:
         print('Ошибка даты. В предложении 2 и более слов, обозначающих дату. Введите предложение с одним таким словом')
@@ -93,7 +95,14 @@ def find_month(s, etalon):
     if x == 0:
         print('Не найдено слова, обозначающего дату')
         word = ''
-    return word
+    C[1] = word
+    if x == 1:
+        if (y != 0) and (s[y - 1].isnumeric() == True) and (len(s[y - 1]) <= 2):
+            C[2] = s[y - 1]
+        if (y != len(s) - 1) and (s[y + 1].isnumeric() == True) and (len(s[y + 1]) == 4):
+            C[0] = s[y + 1]
+
+    return C
 
 
 def find_data(A):
@@ -151,10 +160,11 @@ print(s00)
 List_of_Doing[4] = s00
 print(List_of_Doing)
 
-A = ['Пойти', 'гулять', '21.10']
-B = find_data(A)
-
-print(B)
+A = ['Пойти', 'гулять', '10', 'декабря', '2023']
+# B = find_data(A)
+# print(B)
+C = find_month(A, Months)
+print(C)
 print('OK')
 # See PyCharm help at https://www.jetbrains.cm/help/pycharm/
 # quit()
