@@ -48,7 +48,7 @@ def inf(s, moment_word):
     return p
 
 
-def inf_is_data(A):
+# def inf_is_data(A):
 
 
 def deсover_string(s):
@@ -187,8 +187,8 @@ def FIND(s, M):
         M[0] = C[0]
         M[1] = C[1]
         M[2] = C[2]
-        for j in range(0, 3, 1):
-            if A[i] == C[j]:
+        # for j in range(0, 3, 1):
+        #if A[i] == C[j]:
 
     if M[0] == M[1] == M[2] == '':
         C = find_data(A)
