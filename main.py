@@ -184,7 +184,7 @@ def find_data(A):
 
 
 def find_time(A):
-    C = ['', '', '']
+    C = ['', '']
     for i in range(0, len(A), 1):  # Находим время (типа 21:10 или 10:22)
         B = A[i]
         x = 0
@@ -203,7 +203,6 @@ def find_time(A):
                 elif B[1] == ':':
                     C[0] = B[0]
                     C[1] = B[2] + B[3]
-                    C[2] = True
                 else:
                     print('Неправильно указан формат времени')
             if (C[0] == '') and (C[1] == ''):
