@@ -5,6 +5,7 @@
 # Press the green button in the gutter to run the script.
 
 import datetime
+from datetime import timedelta
 
 
 def print_hi(name):
@@ -19,17 +20,6 @@ print('Hello world')
 print('Добро пожаловать в умный календарь')
 
 n = datetime.datetime.today()
-Today = ['', '', '', '', '']
-Today[0] = n.year
-Today[1] = n.month
-Today[2] = n.day
-Today[3] = n.hour
-Today[4] = n.minute
-for i in range(0, 5, 1):
-    Today[i] = str(Today[i])
-if len(Today[4]) == 1:
-    Today[4] = '0' + Today[4]
-print(Today)
 s0 = ' '  # Далее объявляются ключевые массивы
 Word = 'None'
 List_of_words = list()
@@ -55,6 +45,24 @@ Months = ['январь', 'января', 'январю', 'январём', 'я�
           'декабрём', 'декабре']
 Predlogs = ['в', 'на', 'к', 'с']
 
+
+def format_data_today(n):
+    A = ['', '', '', '', '']
+    A[0] = n.year
+    A[1] = n.month
+    A[2] = n.day
+    A[3] = n.hour
+    A[4] = n.minute
+    for i in range(0, 5, 1):
+        A[i] = str(A[i])
+    if len(A[4]) == 1:
+        A = '0' + A[4]
+    return A
+
+
+Today = format_data_today(n)
+
+
 def cover_string(A):  # Функция собирает отдельные элементы обратно в строку
     S = ' '
     for i in range(0, len(A), 1):
@@ -63,7 +71,8 @@ def cover_string(A):  # Функция собирает отдельные эл�
             S = S + ' '
     return S
 
-def low(s): # Понижение регистра всех букв
+
+def low(s):  # Понижение регистра всех букв
     for i in range(0, len(s), 1):
         s[i] = s[i].lower()
     return s
@@ -265,6 +274,10 @@ def FIND(s,
     return M
 
 
+print(Today)
+k = n + timedelta(days=3)
+k = format_data_today(k)
+print(k)
 s0 = '31.12 сходить в баню'
 print(s0)
 G = FIND(s0, List_of_Doing)
