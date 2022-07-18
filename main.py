@@ -2,6 +2,9 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+# Press the green button in the gutter to run the script.
+
+import datetime
 
 
 def print_hi(name):
@@ -9,11 +12,24 @@ def print_hi(name):
     print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     print_hi('PyCharm')
+
 print('Hello world')
 print('Добро пожаловать в умный календарь')
+
+n = datetime.datetime.today()
+Today = ['', '', '', '', '']
+Today[0] = n.year
+Today[1] = n.month
+Today[2] = n.day
+Today[3] = n.hour
+Today[4] = n.minute
+for i in range(0, 5, 1):
+    Today[i] = str(Today[i])
+if len(Today[4]) == 1:
+    Today[4] = '0' + Today[4]
+print(Today)
 s0 = ' '  # Далее объявляются ключевые массивы
 Word = 'None'
 List_of_words = list()
