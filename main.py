@@ -21,7 +21,7 @@ if __name__ == '__main__':
 print('Hello world')
 print('Добро пожаловать в умный календарь')
 
-n = datetime.datetime.today()
+today = datetime.datetime.today()
 s0 = ' '  # Далее объявляются ключевые массивы
 Word = 'None'
 List_of_words = list()
@@ -62,7 +62,7 @@ def format_data_today(n):
     return A
 
 
-Today = format_data_today(n)
+Today = format_data_today(today)
 
 
 def cover_string(A):  # Функция собирает отдельные элементы обратно в строку
@@ -106,9 +106,6 @@ def inf(A):
     return p
 
 
-# def inf_is_data(A):
-
-
 def deсover_string(s):
     A = list()
     j = 0
@@ -119,7 +116,7 @@ def deсover_string(s):
             A[j] = A[j] + s[i]  # Заполнение j-го элемента массива слов
         else:
 
-            q=A[j].split()  # Переход к следующему элементу массива слов
+            q = A[j].split()  # Переход к следующему элементу массива слов
             A[j] = ''.join(q)
 
             j = j + 1
@@ -129,9 +126,61 @@ def deсover_string(s):
     A[j] = ''.join(q)
     return A  # Массив из слов (от пробела до пробела или конца функции)
 
+
+def find_through(A, M):  # Находит слова типа "через неделю", "через 3 дня" и т.д
+    for i in range(0, len(A), 1):
+        if ((A[i] == 'Через') or (A[i] == 'через')) and (i != len(A) - 1):
+            if (A[i + 1].isnumeric == True) and (i + 1 != len(A) - 1):
+                B = A[i + 2]
+                if B in Years:
+                    ch = B[0]
+                    match ch:
+                        case 'ч':
+                            M[3] = '+' + A[i + 1]
+                        case 'д':
+                            M[2] = '+' + A[i + 1],
+                        case 'н':
+                            M[2] = '+' + str(7 * int(A[i + 1])),
+                        case 'м':
+                            if B[1] == 'е':
+                                M[1] = '+' + A[i + 1]
+                            if B[1] == 'и':
+                                M[4] = '+' + A[i + 1]
+                        case 'г':
+                            M[0] = '+' + A[i + 1],
+                        case 'л':
+                            M[0] = '+' + A[i + 1],
+                        case _:
+                            print('Ненайдено слова, обозначающего дату ')
+
+            elif A[i + 1].isnumeric != True:
+                B = A[i + 1]
+                if B in Years:
+                    ch = B[0]
+                    match ch:
+                        case 'ч':
+                            M[3] = '+1',
+                        case 'д':
+                            M[2] = '+1',
+                        case 'н':
+                            M[2] = '+7',
+                        case 'м':
+                            if B[1] == 'е':
+                                M[1] = '+1'
+                            if B[1] == 'и':
+                                M[4] = '+1',
+                        case 'г':
+                            M[0] = '+1',
+                        case 'л':
+                            M[0] = '+1',
+                        case _:
+                            print('Ненайдено слова, обозначающего дату ')
+    return M
+
+
 def find_word_data(s, etalon):
     x = 0
-    for j in range(0, len(s), 1):  # Находим ключевые слова (сегодня, завтра, через 3 дня и т. п)
+    for j in range(0, len(s), 1):  # Находим ключевые слова (сегодня, завтра и т. п)
         for i in range(0, len(etalon), 1):
             if s[j] == etalon[i]:
                 x += 1
@@ -276,11 +325,12 @@ def FIND(s,
     return M
 
 
-k = n + timedelta(days=3)
+print(Today)
+k = today + timedelta(days=3)
 k = format_data_today(k)
 print(k)
 
-date = n
+date = today
 days_in_month = calendar.monthrange(date.year, date.month)[1]
 date += timedelta(days=days_in_month)
 S1 = format_data_today(date)
@@ -292,10 +342,14 @@ for i in range(0, 1, 1):
     S1 = format_data_today(date)
     print(S1)
 
-s0 = '31.12 сходить в баню'
+s0 = 'сходить в баню через 3 дня'
+A = deсover_string(s0)
 print(s0)
-G = FIND(s0, List_of_Doing)
-print(G)
+# G = FIND(s0, List_of_Doing)
+# print(G)
+P = ['', '', '', '', '', '']
+v = find_through(A, P)
+print(v)
 # See PyCharm help at https://www.jetbrains.cm/help/pycharm/
 # quit()
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
