@@ -4,6 +4,8 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 # Press the green button in the gutter to run the script.
 
+
+import calendar
 import datetime
 from datetime import timedelta
 
@@ -56,7 +58,7 @@ def format_data_today(n):
     for i in range(0, 5, 1):
         A[i] = str(A[i])
     if len(A[4]) == 1:
-        A = '0' + A[4]
+        A[4] = '0' + A[4]
     return A
 
 
@@ -274,10 +276,22 @@ def FIND(s,
     return M
 
 
-print(Today)
 k = n + timedelta(days=3)
 k = format_data_today(k)
 print(k)
+
+date = n
+days_in_month = calendar.monthrange(date.year, date.month)[1]
+date += timedelta(days=days_in_month)
+S1 = format_data_today(date)
+print(S1)
+
+for i in range(0, 1, 1):
+    days_in_month = calendar.monthrange(date.year, date.month)[1]
+    date += timedelta(days=days_in_month)
+    S1 = format_data_today(date)
+    print(S1)
+
 s0 = '31.12 сходить в баню'
 print(s0)
 G = FIND(s0, List_of_Doing)
