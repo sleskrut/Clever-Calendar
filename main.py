@@ -321,7 +321,6 @@ def FIND(s,
 
     return M
 
-
 print(Today)
 k = today + timedelta(days=3)
 k = format_data_today(k)
