@@ -341,7 +341,7 @@ for i in range(0, 1, 1):
     date += timedelta(days=days_in_month)
     S1 = format_data_today(date)
     print(S1)
-
+print()
 s0 = 'сходить в баню через 3 дня'
 A = deсover_string(s0)
 print(s0)
