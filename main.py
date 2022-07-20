@@ -441,7 +441,6 @@ def FIND(s,
         M[8] = M[9] = '-'
     return M
 
-
 print(Today)
 # print(today.weekday())
 k = plus_month(today, 7)
@@ -454,7 +453,7 @@ print(n)
 # print(k)
 
 
-s0 = 'cходить в баню 21.10.24 в 12:09'
+s0 = 'cходить в баню каждый понедельник'
 A = deсover_string(s0)
 low(A)
 print(s0)
