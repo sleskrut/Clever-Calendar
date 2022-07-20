@@ -25,7 +25,7 @@ today = datetime.datetime.today()
 s0 = ' '  # Далее объявляются ключевые массивы
 Word = 'None'
 List_of_words = list()
-List_of_Doing = ['', '', '', '', '', '', '', '', '']
+List_of_Doing = ['', '', '', '', '', '', '', '', '', '', '']
 Days = ['Позавчера', 'Вчера', 'Сегодня', 'Завтра', 'Послезавтра', 'Понедельник', 'Понедельника', 'Понедельнику',
         'Понедельником',
         'Понедельнике', 'Понедельники', 'Понедельников', 'Понедельникам', 'Понедельниками', 'Понедельниках', 'Вторник',
@@ -51,21 +51,46 @@ Predlogs = ['в', 'на', 'к', 'с']
 Every = ['каждый', 'каждого', 'каждому', 'каждым', 'каждом']  # Дописать формы рода (женский, средний
 
 
-def format_data_today(n):
-    A = ['', '', '', '', '']
+def tuple_in_str(M):
+    for i in range(0, len(M), 1):
+        if type(M[i]) == tuple:
+            M[i] = list(M[i])
+            p = M[i]
+            M[i] = p[0]
+    return M
+
+
+def format_data_in_massiv(n):
+    A = ['', '', '', '', '', '']
     A[0] = n.year
     A[1] = n.month
     A[2] = n.day
     A[3] = n.hour
     A[4] = n.minute
-    for i in range(0, 5, 1):
+    for i in range(0, len(A), 1):
         A[i] = str(A[i])
     if len(A[4]) == 1:
         A[4] = '0' + A[4]
     return A
 
 
-Today = format_data_today(today)
+Today = format_data_in_massiv(today)
+
+
+def format_massiv_in_data(A):
+    n = datetime.datetime.today()
+    if len(A[4]) == 2:
+        B = A[4]
+        if B[0] == '0':
+            A[4] = B[1]
+    for i in range(0, len(A), 1):
+        A[i] = int(A[i])
+    n.year = A[0]
+    n.month = A[1]
+    n.day = A[2]
+    n.hour = A[3]
+    n.minute = A[4]
+    return n
 
 
 def cover_string(A):  # Функция собирает отдельные элементы обратно в строку
@@ -132,14 +157,14 @@ def deсover_string(s):
     return A  # Массив из слов (от пробела до пробела или конца функции)
 
 
-def find_through(A, M):  # Находит слова типа "через неделю", "через 3 дня" и т.д
+def find_through_every(A, M):  # Находит слова типа "через неделю", "через 3 дня" и т.д
     y = -1
     for i in range(0, len(A), 1):
         if (A[i] == 'через') or (A[i] in Every):
             y = i
     if y != -1:
-        if y <= len(A) - 3:
-            ch1 = A[y + 1]
+        if y <= len(A) - 3:  # доделать и проверить
+            ch1 = A[y + 1]  # добавить исправление ошибок
             ch2 = A[y + 2]
             if ch1.isnumeric() == True:
                 if ch2 in Years:
@@ -147,6 +172,7 @@ def find_through(A, M):  # Находит слова типа "через нед
                         case 'ч':
                             M[3] = '+' + A[y + 1],
                         case 'д':
+                            print(A[y + 1])
                             M[2] = '+' + A[y + 1],
                         case 'н':
                             M[2] = '+' + str(7 * int(A[y + 1])),
@@ -183,17 +209,23 @@ def find_through(A, M):  # Находит слова типа "через нед
                         M[0] = '+1',
                     case _:
                         print('Не найдено слова "через" или люобй падежной формы (или рода) слова "каждый"')
-
-        for i in range(0, len(M), 1):
-            if type(M[i]) == tuple:
-                M[i] = list(M[i])
-                p = M[i]
-                M[i] = p[0]
+        tuple_in_str(M)
 
         # Дописать функцию "каждый": заполнить последние 3 строки list of doing
 
-        # for i in range(0, len(A), 1):
-        # if A[i] in Every:
+        for i in range(0, len(A), 1):  # доделать и проверить
+            if A[i] in Every:  # добавить исправление ошибок
+                M[8] = 'повтор'
+                if (y <= len(A) - 3) and (A[i + 1].isnumeric() == True):
+                    M[10] = A[i + 1]
+                    for j in range(0, 8, 1):
+                        if (j != 6) and (M[j != '']):
+                            M[9] = j
+                if y == len(A) - 2:
+                    M[10] = '1'
+                    for j in range(0, 8, 1):
+                        if (j != 6) and (M[j != '']):
+                            M[9] = j
 
     return M
 
@@ -280,7 +312,7 @@ def find_data(A):
 
 
 def find_time(A):
-    C = ['', '']
+    C = ['', '', '']
     for i in range(0, len(A), 1):  # Находим время (типа 21:10 или 10:22)
         B = A[i]
         x = 0
@@ -312,8 +344,8 @@ def FIND(s,
     A = deсover_string(s)
     if M[0] == M[1] == M[2] == M[3] == M[4] == '':
         Word = find_word_data(A, Days)
-        M[2] = Word
-    if M[2] == '':
+        M[6] = Word
+    if M[6] == '':
         C = find_month(A, Months)
         M[0] = C[0]
         M[1] = C[1]
@@ -329,7 +361,7 @@ def FIND(s,
     if C[0] != '':
         M[3] = C[0]
         M[4] = C[1]
-    if M[0] == M[1] == M[2] == M[3] == M[4] == '':
+    if M[0] == M[1] == M[2] == M[3] == M[4] == M[6] == '':
         for i in range(0, len(A), 1):
             if A[i].isnumeric() == True:
                 B = A[i]
@@ -337,31 +369,35 @@ def FIND(s,
                     M[2] = B
                 if len(B) == 4:
                     M[0] = B
-    if M[0] == M[1] == M[2] == M[3] == M[4] == '':
-        M = find_through(A, M)
-    if M[0] == M[1] == M[2] == M[3] == M[4] == '':
+    if M[0] == M[1] == M[2] == M[3] == M[4] == M[6] == '':
+        M = find_through_every(A, M)
+    if M[0] == M[1] == M[2] == M[3] == M[4] == M[6] == '':
         print('Не введено даты или слов, указывающих на неё')
     M[5] = inf(A)
     if M[5] == '':
         print('Не введено задачи')
     return M
 
+
 print(Today)
+print(today.weekday())
 k = today + timedelta(days=3)
-k = format_data_today(k)
+k = format_data_in_massiv(k)
 print(k)
+# k = format_massiv_in_data(k) # Почему из даты в массив можно а обратно нельзя??? как вернуть обратно
+# print(k)
 
 date = today
 days_in_month = calendar.monthrange(date.year, date.month)[1]
 date += timedelta(days=days_in_month)
-S1 = format_data_today(date)
+S1 = format_data_in_massiv(date)
 print(S1)
 
 for i in range(0, 1, 1):
     days_in_month = calendar.monthrange(date.year, date.month)[1]
     date += timedelta(days=days_in_month)
-    S1 = format_data_today(date)
-s0 = 'cходить в баню каждый месяц'
+    S1 = format_data_in_massiv(date)
+s0 = 'ходить в баню каждый 100 лет'
 A = deсover_string(s0)
 low(A)
 print(s0)
