@@ -25,7 +25,7 @@ today = datetime.datetime.today()
 s0 = ' '  # Далее объявляются ключевые массивы
 Word = 'None'
 List_of_words = list()
-List_of_Doing = ['', '', '', '', '', '', '', '', '', '', '']
+List_of_Doing = ['', '', '', '', '', '', '', '', '', '']
 Days = ['Позавчера', 'Вчера', 'Сегодня', 'Завтра', 'Послезавтра', 'Понедельник', 'Понедельника', 'Понедельнику',
         'Понедельником',
         'Понедельнике', 'Понедельники', 'Понедельников', 'Понедельникам', 'Понедельниками', 'Понедельниках', 'Вторник',
@@ -51,6 +51,55 @@ Predlogs = ['в', 'на', 'к', 'с']
 Every = ['каждый', 'каждого', 'каждому', 'каждым', 'каждом']  # Дописать формы рода (женский, средний
 
 
+def plus_minute(n, k):
+    if n == None:
+        n = datetime.datetime.today()
+    p = n + timedelta(minutes=k)
+    return p
+
+
+def plus_hour(n, k):
+    if n == None:
+        n = datetime.datetime.today()
+    p = n + timedelta(hours=k)
+    return p
+
+
+def plus_day(n, k):
+    if n == None:
+        n = datetime.datetime.today()
+    p = n + timedelta(days=k)
+    return p
+
+
+def plus_week(n, k):
+    if n == None:
+        n = datetime.datetime.today()
+    p = n + timedelta(weeks=k)
+    return p
+
+
+def plus_month(n, k):
+    if n == None:
+        n = datetime.datetime.today()
+    date = n
+    for i in range(0, k, 1):
+        days_in_month = calendar.monthrange(date.year, date.month)[1]
+        date += timedelta(days=days_in_month)
+    return date
+
+
+def plus_year(n, k):
+    if n == None:
+        n = datetime.datetime.today()
+    date = n
+    for j in range(0, k, 1):
+        for i in range(0, 12, 1):
+            days_in_month = calendar.monthrange(date.year, date.month)[1]
+            date += timedelta(days=days_in_month)
+    return date
+
+
 def tuple_in_str(M):
     for i in range(0, len(M), 1):
         if type(M[i]) == tuple:
@@ -67,6 +116,7 @@ def format_data_in_massiv(n):
     A[2] = n.day
     A[3] = n.hour
     A[4] = n.minute
+    A[5] = n.weekday()
     for i in range(0, len(A), 1):
         A[i] = str(A[i])
     if len(A[4]) == 1:
@@ -83,14 +133,7 @@ def format_massiv_in_data(A):
         B = A[4]
         if B[0] == '0':
             A[4] = B[1]
-    for i in range(0, len(A), 1):
-        A[i] = int(A[i])
-    n.year = A[0]
-    n.month = A[1]
-    n.day = A[2]
-    n.hour = A[3]
-    n.minute = A[4]
-    return n
+    # Продолжить написание этой функции после написания функции прибавления даты
 
 
 def cover_string(A):  # Функция собирает отдельные элементы обратно в строку
@@ -172,7 +215,6 @@ def find_through_every(A, M):  # Находит слова типа "через 
                         case 'ч':
                             M[3] = '+' + A[y + 1],
                         case 'д':
-                            print(A[y + 1])
                             M[2] = '+' + A[y + 1],
                         case 'н':
                             M[2] = '+' + str(7 * int(A[y + 1])),
@@ -211,21 +253,39 @@ def find_through_every(A, M):  # Находит слова типа "через 
                         print('Не найдено слова "через" или люобй падежной формы (или рода) слова "каждый"')
         tuple_in_str(M)
 
-        # Дописать функцию "каждый": заполнить последние 3 строки list of doing
 
         for i in range(0, len(A), 1):  # доделать и проверить
             if A[i] in Every:  # добавить исправление ошибок
-                M[8] = 'повтор'
+                M[7] = 'повтор'
                 if (y <= len(A) - 3) and (A[i + 1].isnumeric() == True):
-                    M[10] = A[i + 1]
-                    for j in range(0, 8, 1):
-                        if (j != 6) and (M[j != '']):
-                            M[9] = j
+                    M[9] = A[i + 1]
+                    M[8] = A[i + 2]
+                    G = M[8]
+                    M[8] = G[0:3]
+                    if G[0] == 'г':
+                        M[8] = 'лет'
+                    if G[0] == 'д':
+                        M[8] = 'дней'
+                    if G[0] == 'н':
+                        M[8] = 'дней'
+                        M[9] = str(7 * int(A[y + 1]))
                 if y == len(A) - 2:
-                    M[10] = '1'
-                    for j in range(0, 8, 1):
-                        if (j != 6) and (M[j != '']):
-                            M[9] = j
+                    if A[i + 1] in Years:
+                        M[8] = A[i + 1]
+                        M[9] = '1'
+                        G = M[8]
+                        M[8] = G[0:3]
+                        if G[0] == 'г':
+                            M[8] = 'лет'
+                        if G[0] == 'д':
+                            M[8] = 'дней'
+                        if G[0] == 'н':
+                            M[8] = 'дней'
+                            M[9] = '7'
+                    if A[i + 1] in Days:
+                        M[8] = 'дней'
+                        M[9] = '7'
+                        M[4] = '+0'  # добавить столько дней скольео до текущего дня недели
 
     return M
 
@@ -342,10 +402,11 @@ def find_time(A):
 def FIND(s,
          M):  # Общая функция, содержащяя в себе предыдущие. Получает на вход строку, выдаёт упорядоченный массив формата {год, месяц, день, час, минута, само действие}
     A = deсover_string(s)
-    if M[0] == M[1] == M[2] == M[3] == M[4] == '':
+    if M[0] == M[1] == M[2] == M[3] == M[4] == M[6] == '':
+        M = find_through_every(A, M)
         Word = find_word_data(A, Days)
         M[6] = Word
-    if M[6] == '':
+    if M[0] == M[1] == M[2] == M[3] == M[4] == M[6] == '':
         C = find_month(A, Months)
         M[0] = C[0]
         M[1] = C[1]
@@ -369,35 +430,31 @@ def FIND(s,
                     M[2] = B
                 if len(B) == 4:
                     M[0] = B
-    if M[0] == M[1] == M[2] == M[3] == M[4] == M[6] == '':
-        M = find_through_every(A, M)
+
     if M[0] == M[1] == M[2] == M[3] == M[4] == M[6] == '':
         print('Не введено даты или слов, указывающих на неё')
     M[5] = inf(A)
     if M[5] == '':
         print('Не введено задачи')
+    elif M[7] == '':
+        M[7] = 'нет повтора'
+        M[8] = M[9] = '-'
     return M
 
 
 print(Today)
-print(today.weekday())
-k = today + timedelta(days=3)
-k = format_data_in_massiv(k)
-print(k)
+# print(today.weekday())
+k = plus_month(today, 7)
+n = format_data_in_massiv(k)
+print(n)
+k = plus_year(k, 1)
+n = format_data_in_massiv(k)
+print(n)
 # k = format_massiv_in_data(k) # Почему из даты в массив можно а обратно нельзя??? как вернуть обратно
 # print(k)
 
-date = today
-days_in_month = calendar.monthrange(date.year, date.month)[1]
-date += timedelta(days=days_in_month)
-S1 = format_data_in_massiv(date)
-print(S1)
 
-for i in range(0, 1, 1):
-    days_in_month = calendar.monthrange(date.year, date.month)[1]
-    date += timedelta(days=days_in_month)
-    S1 = format_data_in_massiv(date)
-s0 = 'ходить в баню каждый 100 лет'
+s0 = 'cходить в баню 21.10.24 в 12:09'
 A = deсover_string(s0)
 low(A)
 print(s0)
