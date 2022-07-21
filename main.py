@@ -109,6 +109,52 @@ def tuple_in_str(M):
     return M
 
 
+def tuple_in_str_char(m):
+    if type(m) == tuple:
+        m = list(m)
+        p = m
+        m = p[0]
+    return m
+
+
+def weekday(A):
+    k = datetime.datetime.today()
+    x = k.weekday()
+    print(x)
+    match A[6]:
+        case 'сег':
+            A[2] = '+0',
+        case 'зав':
+            A[2] = '+1',
+        case 'пос':
+            A[2] = '+2'
+    match A[6]:
+        case 'пон':
+            y = 0,
+        case 'вто':
+            y = 1,
+        case 'сре':
+            y = 2,
+        case 'чет':
+            y = 3,
+        case 'пят':
+            y = 4,
+        case 'суб':
+            y = 5,
+        case 'вос':
+            y = 6
+    print(y)
+    y = tuple_in_str_char(y)
+    print(y)
+    n = 0
+    while x != y:
+        k = plus_day(k, 1)
+        x = k.weekday()
+        n = n + 1
+    A[2] = '+' + str(n)
+    return A
+
+
 def format_data_in_massiv(n):
     A = ['', '', '', '', '', '']
     A[0] = n.year
@@ -285,6 +331,8 @@ def find_through_every(A, M):  # Находит слова типа "через 
                     if A[i + 1] in Days:
                         M[8] = 'дней'
                         M[9] = '7'
+                        k = datetime.datetime.today()
+
                         M[4] = '+0'  # добавить столько дней скольео до текущего дня недели
 
     return M
@@ -399,6 +447,12 @@ def find_time(A):
     return C
 
 
+# def change_plus(A):
+#  for i in range(0, len(A), 1):
+#      B = A[i]
+#     if
+
+
 def FIND(s,
          M):  # Общая функция, содержащяя в себе предыдущие. Получает на вход строку, выдаёт упорядоченный массив формата {год, месяц, день, час, минута, само действие}
     A = deсover_string(s)
@@ -406,6 +460,11 @@ def FIND(s,
         M = find_through_every(A, M)
         Word = find_word_data(A, Days)
         M[6] = Word
+        B = M[6]
+        M[6] = B[0:3]
+        if M[6] != '':
+            M = weekday(M)
+
     if M[0] == M[1] == M[2] == M[3] == M[4] == M[6] == '':
         C = find_month(A, Months)
         M[0] = C[0]
@@ -441,6 +500,7 @@ def FIND(s,
         M[8] = M[9] = '-'
     return M
 
+
 print(Today)
 # print(today.weekday())
 k = plus_month(today, 7)
@@ -449,11 +509,13 @@ print(n)
 k = plus_year(k, 1)
 n = format_data_in_massiv(k)
 print(n)
+k = plus_day(k, 2)
+print(k)
 # k = format_massiv_in_data(k) # Почему из даты в массив можно а обратно нельзя??? как вернуть обратно
 # print(k)
 
 
-s0 = 'cходить в баню каждый понедельник'
+s0 = 'cходить в магазин через 3 года'
 A = deсover_string(s0)
 low(A)
 print(s0)
