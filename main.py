@@ -48,7 +48,44 @@ Months = ['январь', 'января', 'январю', 'январём', 'я�
           'октябрём', 'октябре', 'ноябрь', 'ноября', 'ноябрю', 'ноябрём', 'ноябре', 'декабрь', 'декабря', 'декабрю',
           'декабрём', 'декабре']
 Predlogs = ['в', 'на', 'к', 'с']
-Every = ['каждый', 'каждого', 'каждому', 'каждым', 'каждом']  # Дописать формы рода (женский, средний
+Every = ['каждый', 'каждого', 'каждому', 'каждым', 'каждом']  # Дописать формы рода (женский, средний)
+Week0 = ['пон', 'вто', 'сре', 'чет', 'пят', 'суб', 'вос']
+Days0 = ['день', 'дня', 'дню', 'днём', 'дне', 'дни', 'дней', 'дням', 'днями', 'днях']
+May0 = ['май', 'мая', 'маю', 'маем', 'мае']
+
+
+def month_in_date(s):
+    if (s.isnumeric == False) and (s != ''):
+        if s in May0:
+            s = 'май'
+        s = s[0:2]
+        match s:
+            case 'янв':
+                s = '01',
+            case 'фев':
+                s = '02',
+            case 'мар':
+                s = '03',
+            case 'апр':
+                s = '04',
+            case 'май':
+                s = '05',
+            case 'июн':
+                s = '06',
+            case 'июл':
+                s = '07',
+            case 'авг':
+                s = '08',
+            case 'сен':
+                s = '09',
+            case 'окт':
+                s = '10',
+            case 'ноя':
+                s = '11',
+            case 'дек':
+                s = '12'
+        tuple_in_str_char(s)
+    return s
 
 
 def plus_minute(n, k):
@@ -117,7 +154,7 @@ def tuple_in_str_char(m):
     return m
 
 
-def weekday(A):
+def weekday_of_today(A):
     k = datetime.datetime.today()
     x = k.weekday()
     print(x)
@@ -143,15 +180,36 @@ def weekday(A):
             y = 5,
         case 'вос':
             y = 6
-    print(y)
     y = tuple_in_str_char(y)
-    print(y)
     n = 0
+    if x == y:
+        n = 7
     while x != y:
         k = plus_day(k, 1)
         x = k.weekday()
         n = n + 1
     A[2] = '+' + str(n)
+    return A
+
+
+def weekday_of_massived_data(A):
+    match A[6]:
+        case '0':
+            y = 'пн',
+        case '1':
+            y = 'вт',
+        case '2':
+            y = 'ср',
+        case '3':
+            y = 'чт',
+        case '4':
+            y = 'пт',
+        case '5':
+            y = 'су',
+        case '6':
+            y = 'вс'
+    y = tuple_in_str_char(y)
+    A[6] = y
     return A
 
 
@@ -259,20 +317,27 @@ def find_through_every(A, M):  # Находит слова типа "через 
                 if ch2 in Years:
                     match ch2[0]:
                         case 'ч':
-                            M[3] = '+' + A[y + 1],
+                            M[3] = '+' + A[y + 1]
+                            M[8] = 'час',
                         case 'д':
-                            M[2] = '+' + A[y + 1],
+                            M[2] = '+' + A[y + 1]
+                            M[8] = 'ден',
                         case 'н':
-                            M[2] = '+' + str(7 * int(A[y + 1])),
+                            M[2] = '+' + str(7 * int(A[y + 1]))
+                            M[8] = 'нед',
                         case 'м':
                             if ch2[1] == 'е':
                                 M[1] = '+' + A[y + 1]
+                                M[8] = 'мес'
                             if ch2[1] == 'и':
-                                M[4] = '+' + A[y + 1],
+                                M[4] = '+' + A[y + 1]
+                                M[8] = 'мин',
                         case 'г':
-                            M[0] = '+' + A[y + 1],
+                            M[0] = '+' + A[y + 1]
+                            M[8] = 'год',
                         case 'л':
-                            M[0] = '+' + A[y + 1],
+                            M[0] = '+' + A[y + 1]
+                            M[8] = 'лет',
                         case _:
                             print('Не найдено слова "через"')
 
@@ -331,9 +396,6 @@ def find_through_every(A, M):  # Находит слова типа "через 
                     if A[i + 1] in Days:
                         M[8] = 'дней'
                         M[9] = '7'
-                        k = datetime.datetime.today()
-
-                        M[4] = '+0'  # добавить столько дней скольео до текущего дня недели
 
     return M
 
@@ -447,10 +509,81 @@ def find_time(A):
     return C
 
 
-# def change_plus(A):
-#  for i in range(0, len(A), 1):
-#      B = A[i]
-#     if
+def change_plus(A):
+    if A[6] in Week0:
+        A[6] = ''
+        A[8] = 'ден'
+    if A[8] in Days0:
+        A[8] = 'ден'
+    for i in range(0, len(A), 1):
+        B = A[i]
+        if A[i] != '':
+            if B[0] == '+':
+                x = B[1]
+                for j in range(2, len(B), 1):
+                    x = x + B[i]
+                x = int(x)
+                y = A[8]
+                if y == 'мин':
+                    k = plus_minute(today, x)
+                if y == 'час':
+                    k = plus_hour(today, x)
+                if y == 'ден':
+                    k = plus_day(today, x)
+                if y == 'нед':
+                    k = plus_day(today, x)
+                if y == 'мес':
+                    k = plus_month(today, x)
+                if y == 'год':
+                    k = plus_year(today, x)
+                if y == 'лет':
+                    k = plus_year(today, x)
+                K = format_data_in_massiv(k)
+                for z in range(0, 5, 1):
+                    A[z] = K[z]
+                    A[6] = K[5]
+                    A = weekday_of_massived_data(A)
+                    if A[7] == 'нет повтора':
+                        A[8] = '-'
+
+    return A
+
+
+def reduct_date(A):  # дописать сюда функцию добавления дня недели, если он не заполнен
+    if (A[3] == '') or (A[4] == ''):
+        A[3] = A[4] = '00'
+    if (A[1].isnumeric == False) and (A[1] != ''):
+        if A[1] in May0:
+            A[1] = 'май'
+        B = A[1]
+        B = B[0:2]
+        A[1] = B
+        match B:
+            case 'янв':
+                A[1] = '01',
+            case 'фев':
+                A[1] = '02',
+            case 'мар':
+                A[1] = '03',
+            case 'апр':
+                A[1] = '04',
+            case 'май':
+                A[1] = '05',
+            case 'июн':
+                A[1] = '06',
+            case 'июл':
+                A[1] = '07',
+            case 'авг':
+                A[1] = '08',
+            case 'сен':
+                A[1] = '09',
+            case 'окт':
+                A[1] = '10',
+            case 'ноя':
+                A[1] = '11',
+            case 'дек':
+                A[1] = '12'
+        tuple_in_str(A)
 
 
 def FIND(s,
@@ -463,7 +596,7 @@ def FIND(s,
         B = M[6]
         M[6] = B[0:3]
         if M[6] != '':
-            M = weekday(M)
+            M = weekday_of_today(M)
 
     if M[0] == M[1] == M[2] == M[3] == M[4] == M[6] == '':
         C = find_month(A, Months)
@@ -497,25 +630,20 @@ def FIND(s,
         print('Не введено задачи')
     elif M[7] == '':
         M[7] = 'нет повтора'
-        M[8] = M[9] = '-'
+        if M[8] == '':
+            M[8] = '-'
+        M[9] = '-'
+    M = change_plus(M)
     return M
 
 
 print(Today)
-# print(today.weekday())
-k = plus_month(today, 7)
-n = format_data_in_massiv(k)
-print(n)
-k = plus_year(k, 1)
-n = format_data_in_massiv(k)
-print(n)
-k = plus_day(k, 2)
-print(k)
+print(today)
 # k = format_massiv_in_data(k) # Почему из даты в массив можно а обратно нельзя??? как вернуть обратно
 # print(k)
 
 
-s0 = 'cходить в магазин через 3 года'
+s0 = 'cходить в магазин каждый 21.10'
 A = deсover_string(s0)
 low(A)
 print(s0)
