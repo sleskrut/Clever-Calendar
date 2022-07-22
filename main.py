@@ -53,12 +53,18 @@ Week0 = ['пон', 'вто', 'сре', 'чет', 'пят', 'суб', 'вос']
 Days0 = ['день', 'дня', 'дню', 'днём', 'дне', 'дни', 'дней', 'дням', 'днями', 'днях']
 May0 = ['май', 'мая', 'маю', 'маем', 'мае']
 
+def destroy_mistake(A):
+    for i in range(0, len(A), 1):
+        if (len(A[i]) == 1) and (A[i] != ' ') and (A[i] != '-'):
+            A[i] = '0' + A[i]
+    return A
+
 
 def month_in_date(s):
-    if (s.isnumeric == False) and (s != ''):
+    if (s.isnumeric() == False) and (s != ' '):
         if s in May0:
             s = 'май'
-        s = s[0:2]
+        s = s[0:3]
         match s:
             case 'янв':
                 s = '01',
@@ -157,7 +163,6 @@ def tuple_in_str_char(m):
 def weekday_of_today(A):
     k = datetime.datetime.today()
     x = k.weekday()
-    print(x)
     match A[6]:
         case 'сег':
             A[2] = '+0',
@@ -180,15 +185,17 @@ def weekday_of_today(A):
             y = 5,
         case 'вос':
             y = 6
-    y = tuple_in_str_char(y)
-    n = 0
-    if x == y:
-        n = 7
-    while x != y:
-        k = plus_day(k, 1)
-        x = k.weekday()
-        n = n + 1
-    A[2] = '+' + str(n)
+    if y != None:
+        y = tuple_in_str_char(y)
+        n = 0
+        if x == y:
+            n = 7
+        while x != y:
+            k = plus_day(k, 1)
+            x = k.weekday()
+            n = n + 1
+        A[2] = '+' + str(n)
+
     return A
 
 
@@ -205,7 +212,7 @@ def weekday_of_massived_data(A):
         case '4':
             y = 'пт',
         case '5':
-            y = 'су',
+            y = 'сб',
         case '6':
             y = 'вс'
     y = tuple_in_str_char(y)
@@ -223,6 +230,12 @@ def format_data_in_massiv(n):
     A[5] = n.weekday()
     for i in range(0, len(A), 1):
         A[i] = str(A[i])
+    if len(A[1]) == 1:
+        A[1] = '0' + A[1]
+    if len(A[2]) == 1:
+        A[2] = '0' + A[2]
+    if len(A[3]) == 1:
+        A[3] = '0' + A[3]
     if len(A[4]) == 1:
         A[4] = '0' + A[4]
     return A
@@ -232,12 +245,8 @@ Today = format_data_in_massiv(today)
 
 
 def format_massiv_in_data(A):
-    n = datetime.datetime.today()
-    if len(A[4]) == 2:
-        B = A[4]
-        if B[0] == '0':
-            A[4] = B[1]
-    # Продолжить написание этой функции после написания функции прибавления даты
+    k = datetime.datetime(int(A[0]), int(A[1]), int(A[2]), int(A[3]), int(A[4]))
+    return k
 
 
 def cover_string(A):  # Функция собирает отдельные элементы обратно в строку
@@ -552,43 +561,44 @@ def change_plus(A):
 def reduct_date(A):  # дописать сюда функцию добавления дня недели, если он не заполнен
     if (A[3] == '') or (A[4] == ''):
         A[3] = A[4] = '00'
-    if (A[1].isnumeric == False) and (A[1] != ''):
-        if A[1] in May0:
-            A[1] = 'май'
-        B = A[1]
-        B = B[0:2]
-        A[1] = B
-        match B:
-            case 'янв':
-                A[1] = '01',
-            case 'фев':
-                A[1] = '02',
-            case 'мар':
-                A[1] = '03',
-            case 'апр':
-                A[1] = '04',
-            case 'май':
-                A[1] = '05',
-            case 'июн':
-                A[1] = '06',
-            case 'июл':
-                A[1] = '07',
-            case 'авг':
-                A[1] = '08',
-            case 'сен':
-                A[1] = '09',
-            case 'окт':
-                A[1] = '10',
-            case 'ноя':
-                A[1] = '11',
-            case 'дек':
-                A[1] = '12'
-        tuple_in_str(A)
+    if (A[1].isnumeric() == False) and (A[1] != ''):
+        A[1] = month_in_date(A[1])
+    tuple_in_str(A)
+    if A[0] == A[1] == A[2] == '':
+        A[0] = str(today.year)
+        A[1] = str(today.month)
+        A[2] = str(today.day)
+        A[6] = str(today.weekday())
+        k = format_massiv_in_data(A)
+        if k < today:
+            k = plus_day(k, 1)
+            print(k)
+    if A[0] == A[1] == '':
+        A[0] = str(today.year)
+        A[1] = str(today.month)
+        k = format_massiv_in_data(A)
+        if k < today:
+            k = plus_month(k, 1)
+    if A[0] == '':
+        A[0] = str(today.year)
+        k = format_massiv_in_data(A)
+        if k < today:
+            k = plus_year(k, 1)
+    if k != None:
+        A[0] = str(k.year)
+        A[1] = str(k.month)
+        A[2] = str(k.day)
+        A[6] = str(k.weekday())
+    # if A[2]
+    weekday_of_massived_data(A)
+    return A
 
 
 def FIND(s,
          M):  # Общая функция, содержащяя в себе предыдущие. Получает на вход строку, выдаёт упорядоченный массив формата {год, месяц, день, час, минута, само действие}
     A = deсover_string(s)
+    low(A)
+    A = destroy_mistake(A)
     if M[0] == M[1] == M[2] == M[3] == M[4] == M[6] == '':
         M = find_through_every(A, M)
         Word = find_word_data(A, Days)
@@ -634,18 +644,16 @@ def FIND(s,
             M[8] = '-'
         M[9] = '-'
     M = change_plus(M)
+    M = reduct_date(M)
+    M = destroy_mistake(M)
     return M
 
 
-print(Today)
-print(today)
-# k = format_massiv_in_data(k) # Почему из даты в массив можно а обратно нельзя??? как вернуть обратно
-# print(k)
+# Исправить ошибки
 
-
-s0 = 'cходить в магазин каждый 21.10'
-A = deсover_string(s0)
-low(A)
+print('Сегодняшняя дата: ', today)
+# s0 = input('Введите предложение, включающее дату и задачу ')
+s0 = 'сегодня рыбалка'
 print(s0)
 G = FIND(s0, List_of_Doing)
 print(G)
