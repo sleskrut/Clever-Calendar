@@ -168,7 +168,7 @@ def weekday_of_today(A):
         case 'сег':
             A[2] = '+0',
         case 'зав':
-            A[2] = '+1',
+            A[2] = '+1',  # Возвращает + день
         case 'пос':
             A[2] = '+2'
     match A[6]:
@@ -192,7 +192,7 @@ def weekday_of_today(A):
         if x == y:
             n = 7
         while x != y:
-            k = plus_day(k, 1)
+            k = plus_day(k, 1)  # Возвращает в массив день недели после прибавления дней
             x = k.weekday()
             n = n + 1
         A[2] = '+' + str(n)
@@ -216,7 +216,7 @@ def weekday_of_massived_data(A):
             y = 'сб',
         case '6':
             y = 'вс'
-    y = tuple_in_str_char(y)
+    y = tuple_in_str_char(y)  # Возвращает в массив день недели
     A[6] = y
     return A
 
@@ -238,7 +238,7 @@ def format_data_in_massiv(n):
     if len(A[3]) == 1:
         A[3] = '0' + A[3]
     if len(A[4]) == 1:
-        A[4] = '0' + A[4]
+        A[4] = '0' + A[4]  # Переводит значения типа дата в массив
     return A
 
 
@@ -255,7 +255,7 @@ def format_massiv_in_data(A):
         k = plus_day(k, 1)
     if A[2] == '+2':
         k = datetime.datetime.today()
-        k = plus_day(k, 2)
+        k = plus_day(k, 2)  # Переводит значения массива в тип дата
     return k
 
 
@@ -296,7 +296,7 @@ def inf(A):
                     if len(B) >= 3:
                         if (B[2] != '.') and (B[2] != ':') and (B[1] != ':'):
                             p = p + C
-                            p = p + ' '  # Необходимо дописать сюда рекурсивную функцию, проверяющее следующее слово после предлога или союза
+                            p = p + ' '  # Вычленяет информацию о задаче
 
     p = p.strip()
     return p
@@ -329,8 +329,8 @@ def find_through_every(A, M):  # Находит слова типа "через 
         if (A[i] == 'через') or (A[i] in Every):
             y = i
     if y != -1:
-        if y <= len(A) - 3:  # доделать и проверить
-            ch1 = A[y + 1]  # добавить исправление ошибок
+        if y <= len(A) - 3:
+            ch1 = A[y + 1]
             ch2 = A[y + 2]
             if ch1.isnumeric() == True:
                 if ch2 in Years:
@@ -383,9 +383,8 @@ def find_through_every(A, M):  # Находит слова типа "через 
                         print('Не найдено слова "через" или люобй падежной формы (или рода) слова "каждый"')
         tuple_in_str(M)
 
-
-        for i in range(0, len(A), 1):  # доделать и проверить
-            if A[i] in Every:  # добавить исправление ошибок
+        for i in range(0, len(A), 1):
+            if A[i] in Every:
                 M[7] = 'повтор'
                 if (y <= len(A) - 3) and (A[i + 1].isnumeric() == True):
                     M[9] = A[i + 1]
@@ -528,7 +527,8 @@ def find_time(A):
     return C
 
 
-def change_plus(A):
+def change_plus(
+        A):  # переводит строку в дату, если была использована вункция find_through или в строке было слово сегодня, завтра или послезавтра
     k = datetime.datetime.today()
     if A[6] == 'сег':
         k = plus_day(k, 0)
@@ -541,7 +541,6 @@ def change_plus(A):
         A[8] = 'ден'
     if A[8] in Days0:
         A[8] = 'ден'
-    # if A[2] == '+0':
 
     for i in range(0, len(A), 1):
         B = A[i]
@@ -577,7 +576,7 @@ def change_plus(A):
     return A
 
 
-def reduct_date(A):
+def reduct_date(A):  # Находит ближайшую дату, если введены не все параметры
     if (A[3] == '') or (A[4] == ''):
         A[3] = A[4] = '00'
     if (A[1].isnumeric() == False) and (A[1] != ''):
@@ -608,13 +607,12 @@ def reduct_date(A):
         A[2] = str(k.day)
         A[6] = str(k.weekday())
         A = weekday_of_massived_data(A)
-    # if A[2]
 
     return A
 
 
 def FIND(s,
-         M):  # Общая функция, содержащяя в себе предыдущие. Получает на вход строку, выдаёт упорядоченный массив формата {год, месяц, день, час, минута, само действие}
+         M):  # Общая функция, содержащяя в себе предыдущие. Получает на вход строку, выдаёт упорядоченный массив формата (год, месяц, день, час, минута, само действие}
     A = deсover_string(s)
     low(A)
     A = destroy_mistake(A)
@@ -668,7 +666,6 @@ def FIND(s,
     M = destroy_mistake(M)
     return M
 
-# Исправить ошибки
 print()
 print('Сегодняшняя дата: ', today)
 print()
