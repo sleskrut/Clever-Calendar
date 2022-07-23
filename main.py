@@ -632,10 +632,24 @@ def reduct_next(A):
     return A
 
 
+def plus_one(s):
+    A = deсover_string(s)
+    for i in range(0, len(A), 1):
+        if A[i] == 'через':
+            A[i] = 'через 1'
+        if A[i] in Every:
+            A[i] = 'каждый 1'
+    s = cover_string(A)
+    return s
+
+
 def FIND(s,
          M):  # Общая функция, содержащяя в себе предыдущие. Получает на вход строку, выдаёт упорядоченный массив формата (год, месяц, день, час, минута, само действие}
     A = deсover_string(s)
     low(A)
+    s = cover_string(A)
+    s = plus_one(s)
+    A = deсover_string(s)
     A = reduct_next(A)
     # A = destroy_mistake(A)
     if M[0] == M[1] == M[2] == M[3] == M[4] == M[6] == '':
