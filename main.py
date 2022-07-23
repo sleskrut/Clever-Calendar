@@ -185,7 +185,7 @@ def weekday_of_today(A):
             y = 5,
         case 'вос':
             y = 6
-    if y != None:
+    if (A[6] != 'сег') and (A[6] != 'зав') and (A[6] != 'пос'):
         y = tuple_in_str_char(y)
         n = 0
         if x == y:
@@ -245,7 +245,16 @@ Today = format_data_in_massiv(today)
 
 
 def format_massiv_in_data(A):
-    k = datetime.datetime(int(A[0]), int(A[1]), int(A[2]), int(A[3]), int(A[4]))
+    if (A[2] != '+0') and (A[2] != '+1') and (A[2] != '+1'):
+        k = datetime.datetime(int(A[0]), int(A[1]), int(A[2]), int(A[3]), int(A[4]))
+    if A[2] == '+0':
+        k = datetime.datetime.today()
+    if A[2] == '+1':
+        k = datetime.datetime.today()
+        k = plus_day(k, 1)
+    if A[2] == '+2':
+        k = datetime.datetime.today()
+        k = plus_day(k, 2)
     return k
 
 
@@ -519,11 +528,20 @@ def find_time(A):
 
 
 def change_plus(A):
+    k = datetime.datetime.today()
+    if A[6] == 'сег':
+        k = plus_day(k, 0)
+    if A[6] == 'зав':
+        k = plus_day(k, 1)
+    if A[6] == 'пос':
+        k = plus_day(k, 2)
     if A[6] in Week0:
         A[6] = ''
         A[8] = 'ден'
     if A[8] in Days0:
         A[8] = 'ден'
+    # if A[2] == '+0':
+
     for i in range(0, len(A), 1):
         B = A[i]
         if A[i] != '':
@@ -558,7 +576,7 @@ def change_plus(A):
     return A
 
 
-def reduct_date(A):  # дописать сюда функцию добавления дня недели, если он не заполнен
+def reduct_date(A):
     if (A[3] == '') or (A[4] == ''):
         A[3] = A[4] = '00'
     if (A[1].isnumeric() == False) and (A[1] != ''):
@@ -584,13 +602,15 @@ def reduct_date(A):  # дописать сюда функцию добавлен
         k = format_massiv_in_data(A)
         if k < today:
             k = plus_year(k, 1)
-    if k != None:
+    if 'k' in locals():
+        print(k)
         A[0] = str(k.year)
         A[1] = str(k.month)
         A[2] = str(k.day)
         A[6] = str(k.weekday())
+        A = weekday_of_massived_data(A)
     # if A[2]
-    weekday_of_massived_data(A)
+
     return A
 
 
@@ -606,6 +626,7 @@ def FIND(s,
         B = M[6]
         M[6] = B[0:3]
         if M[6] != '':
+            print(M)
             M = weekday_of_today(M)
 
     if M[0] == M[1] == M[2] == M[3] == M[4] == M[6] == '':
@@ -644,6 +665,7 @@ def FIND(s,
             M[8] = '-'
         M[9] = '-'
     M = change_plus(M)
+    M = tuple_in_str(M)
     M = reduct_date(M)
     M = destroy_mistake(M)
     return M
@@ -652,8 +674,7 @@ def FIND(s,
 # Исправить ошибки
 
 print('Сегодняшняя дата: ', today)
-# s0 = input('Введите предложение, включающее дату и задачу ')
-s0 = 'сегодня рыбалка'
+s0 = input('Введите предложение, включающее дату и задачу ')
 print(s0)
 G = FIND(s0, List_of_Doing)
 print(G)
