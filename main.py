@@ -670,7 +670,6 @@ def FIND(s,
     M = destroy_mistake(M)
     return M
 
-
 # Исправить ошибки
 
 print('Сегодняшняя дата: ', today)
