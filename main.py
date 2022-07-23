@@ -19,6 +19,7 @@ if __name__ == '__main__':
     print_hi('PyCharm')
 
 print('Hello world')
+print()
 print('Добро пожаловать в умный календарь')
 
 today = datetime.datetime.today()
@@ -671,8 +672,9 @@ def FIND(s,
     return M
 
 # Исправить ошибки
-
+print()
 print('Сегодняшняя дата: ', today)
+print()
 s0 = input('Введите предложение, включающее дату и задачу ')
 print(s0)
 G = FIND(s0, List_of_Doing)
