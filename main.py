@@ -54,6 +54,8 @@ Every = ['каждый', 'каждого', 'каждому', 'каждым', 'к
 Week0 = ['пон', 'вто', 'сре', 'чет', 'пят', 'суб', 'вос']
 Days0 = ['день', 'дня', 'дню', 'днём', 'дне', 'дни', 'дней', 'дням', 'днями', 'днях']
 May0 = ['май', 'мая', 'маю', 'маем', 'мае']
+Next = ['следующий', 'следующего', 'следующиму', 'следующим', 'следующей', 'следующая', 'следующей', 'следующую',
+        'следующее', 'следующем']
 
 def destroy_mistake(A):
     for i in range(0, len(A), 1):
@@ -222,6 +224,7 @@ def weekday_of_massived_data(A):
     return A
 
 
+
 def format_data_in_massiv(n):
     A = ['', '', '', '', '', '']
     A[0] = n.year
@@ -283,7 +286,7 @@ def inf(A):
     for i in range(0, len(A), 1):
         if (A[i] not in Days) and (A[i] not in Years) and (A[i] not in Months) and (A[i] not in Every) and (
                 A[i].isnumeric() == False) and (
-                A[i] != 'через'):
+                A[i] != 'через') and (A[i] not in Next):
             B = A[i]
             if len(B) >= 3:
                 if (B[2] != '.') and (B[2] != ':') and (B[1] != ':'):
@@ -612,11 +615,29 @@ def reduct_date(A):  # Находит ближайшую дату, если вв
     return A
 
 
+def weekday_0(A):
+    if A[3] == A[4] == '':
+        A[3] = A[4] = '00'
+    k = format_massiv_in_data(A)
+    n = k.weekday()
+    A[6] = str(n)
+    return A
+
+
+def reduct_next(A):
+    for i in range(0, len(A), 1):
+        if A[i] in Next:
+            A[i] = '1'
+            A[i - 1] = 'через'
+    return A
+
+
 def FIND(s,
          M):  # Общая функция, содержащяя в себе предыдущие. Получает на вход строку, выдаёт упорядоченный массив формата (год, месяц, день, час, минута, само действие}
     A = deсover_string(s)
     low(A)
-    A = destroy_mistake(A)
+    A = reduct_next(A)
+    # A = destroy_mistake(A)
     if M[0] == M[1] == M[2] == M[3] == M[4] == M[6] == '':
         M = find_through_every(A, M)
         Word = find_word_data(A, Days)
@@ -661,20 +682,33 @@ def FIND(s,
         if M[8] == '':
             M[8] = '-'
         M[9] = '-'
+    L1 = M[3]
+    L2 = M[4]
     M = change_plus(M)
     M = tuple_in_str(M)
     M = reduct_date(M)
     M = destroy_mistake(M)
+    if M[6] == '':
+        M = weekday_0(M)
+        M = weekday_of_massived_data(M)
+    if M[3] != L1:
+        M[3] = L1
+    if M[4] != L2:
+        M[4] = L2
+    if M[3] == M[4] == '':
+        M[3] = M[4] = '00'
     return M
 
 print()
 print('Сегодняшняя дата: ', today)
 print()
 s0 = input('Введите предложение, включающее дату и задачу ')
+#s0 = 'Приготовить покушать на 2-3 дня 3 сентября 2022 года в 06:01'
 print(s0)
 G = FIND(s0, List_of_Doing)
 if G[5] != '':
     print(G)
+
 # See PyCharm help at https://www.jetbrains.cm/help/pycharm/
 # quit()
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
