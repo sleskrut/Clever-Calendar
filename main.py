@@ -591,7 +591,6 @@ def reduct_date(A):
         k = format_massiv_in_data(A)
         if k < today:
             k = plus_day(k, 1)
-            print(k)
     if A[0] == A[1] == '':
         A[0] = str(today.year)
         A[1] = str(today.month)
@@ -604,7 +603,6 @@ def reduct_date(A):
         if k < today:
             k = plus_year(k, 1)
     if 'k' in locals():
-        print(k)
         A[0] = str(k.year)
         A[1] = str(k.month)
         A[2] = str(k.day)
@@ -627,7 +625,6 @@ def FIND(s,
         B = M[6]
         M[6] = B[0:3]
         if M[6] != '':
-            print(M)
             M = weekday_of_today(M)
 
     if M[0] == M[1] == M[2] == M[3] == M[4] == M[6] == '':
@@ -655,8 +652,8 @@ def FIND(s,
                 if len(B) == 4:
                     M[0] = B
 
-    if M[0] == M[1] == M[2] == M[3] == M[4] == M[6] == '':
-        print('Не введено даты или слов, указывающих на неё')
+    # if M[0] == M[1] == M[2] == M[3] == M[4] == M[6] == '':
+    # print('Не введено даты или слов, указывающих на неё')
     M[5] = inf(A)
     if M[5] == '':
         print('Не введено задачи')
@@ -678,7 +675,8 @@ print()
 s0 = input('Введите предложение, включающее дату и задачу ')
 print(s0)
 G = FIND(s0, List_of_Doing)
-print(G)
+if G[5] != '':
+    print(G)
 # See PyCharm help at https://www.jetbrains.cm/help/pycharm/
 # quit()
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
