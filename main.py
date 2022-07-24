@@ -57,6 +57,11 @@ May0 = ['май', 'мая', 'маю', 'маем', 'мае']
 Next = ['следующий', 'следующего', 'следующиму', 'следующим', 'следующей', 'следующая', 'следующей', 'следующую',
         'следующее', 'следующем']
 Weekend = ['выходные', 'выходных', 'выходным', 'выходными']
+Morning = ['утро', 'утра', 'утру', 'утром', 'утре']
+Noon = ['полдень', 'полудня', 'полудню', 'полудни', 'полуней', 'полденем']
+Evening = ['вечер', 'вечера', 'вечеру', 'вечером', 'вечере']
+Night = ['ночь', 'ночи', 'ночью']
+
 
 def destroy_mistake(A):
     for i in range(0, len(A), 1):
@@ -287,7 +292,8 @@ def inf(A):
     for i in range(0, len(A), 1):
         if (A[i] not in Days) and (A[i] not in Years) and (A[i] not in Months) and (A[i] not in Every) and (
                 A[i].isnumeric() == False) and (
-                A[i] != 'через') and (A[i] not in Next):
+                A[i] != 'через') and (A[i] not in Next) and (A[i] not in Morning) and (A[i] not in Noon) and (
+                A[i] not in Evening) and (A[i] not in Night):
             B = A[i]
             if len(B) >= 3:
                 if (B[2] != '.') and (B[2] != ':') and (B[1] != ':'):
@@ -646,6 +652,28 @@ def plus_one_weekend(s):
     return s
 
 
+def check_daytime(s, A):
+    E = deсover_string(s)
+    for i in range(0, len(E), 1):
+        if E[i] in Morning:
+            A[3] = '09'
+            A[4] = '00'
+        if E[i] in Noon:
+            A[3] = '12'
+            A[4] = '00'
+        if E[i] in Evening:
+            A[3] = '16'
+            A[4] = '00'
+        if E[i] in Night:
+            A[3] = '00'
+            A[4] = '00'
+    k = format_massiv_in_data(A)
+    if k < today:
+        print('Возможно, напоминание в прошлом')
+        A[3] = str(today.hour)
+        A[4] = str(today.minute)
+    return A
+
 def FIND(s,
          M):  # Общая функция, содержащяя в себе предыдущие. Получает на вход строку, выдаёт упорядоченный массив формата (год, месяц, день, час, минута, само действие}
     A = deсover_string(s)
@@ -714,6 +742,7 @@ def FIND(s,
         M[4] = L2
     if M[3] == M[4] == '':
         M[3] = M[4] = '00'
+    M = check_daytime(s, M)
     return M
 
 print()
