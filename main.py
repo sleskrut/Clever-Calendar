@@ -56,6 +56,7 @@ Days0 = ['день', 'дня', 'дню', 'днём', 'дне', 'дни', 'дне
 May0 = ['май', 'мая', 'маю', 'маем', 'мае']
 Next = ['следующий', 'следующего', 'следующиму', 'следующим', 'следующей', 'следующая', 'следующей', 'следующую',
         'следующее', 'следующем']
+Weekend = ['выходные', 'выходных', 'выходным', 'выходными']
 
 def destroy_mistake(A):
     for i in range(0, len(A), 1):
@@ -632,13 +633,15 @@ def reduct_next(A):
     return A
 
 
-def plus_one(s):
+def plus_one_weekend(s):
     A = deсover_string(s)
     for i in range(0, len(A), 1):
         if A[i] == 'через':
             A[i] = 'через 1'
         if A[i] in Every:
             A[i] = 'каждый 1'
+        if A[i] in Weekend:
+            A[i] = 'суббота'
     s = cover_string(A)
     return s
 
@@ -648,7 +651,7 @@ def FIND(s,
     A = deсover_string(s)
     low(A)
     s = cover_string(A)
-    s = plus_one(s)
+    s = plus_one_weekend(s)
     A = deсover_string(s)
     A = reduct_next(A)
     # A = destroy_mistake(A)
