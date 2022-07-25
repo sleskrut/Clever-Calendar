@@ -758,11 +758,17 @@ def FIND(s,
 def print_result1(A):
     print('{STATUS: SUCCESS , TEXT:', A[5], 'PARAMS: {}, DATE: {year:', A[0], ', month:', A[1], ', day:', A[2],
           ', hour:', A[3], ', minute:', A[4], '}}')
+
+
+def print_result2(A):
+    print('{STATUS: SUCCESS , TEXT:', A[5], 'PARAMS: {', A[7], 'WEEKDAY', A[6])
+
+
 print()
 print('Сегодняшняя дата: ', today)
 print()
 s0 = input('Введите предложение, включающее дату и задачу ')
-#s0 = 'Приготовить покушать на 2-3 дня 3 сентября 2022 года в 06:01'
+# s0 = 'Приготовить покушать на 2-3 дня 3 сентября 2022 года в 06:01'
 print(s0)
 G = FIND(s0, List_of_Doing)
 if G[5] != '':
