@@ -751,6 +751,7 @@ def FIND(s,
         if (A[i].isnumeric() == True) and (A[i + 1] in WEEK):
             M[8] = 'нед'
             M[9] = A[i]
+
     return M
 
 print()
