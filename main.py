@@ -367,10 +367,7 @@ def find_through_every(A, M):  # Находит слова типа "через 
                             M[8] = 'год',
                         case 'л':
                             M[0] = '+' + A[y + 1]
-                            M[8] = 'лет',
-                        case _:
-                            print('Не найдено слова "через"')
-
+                            M[8] = 'лет'
         if y == len(A) - 2:
             ch2 = A[y + 1]
             if ch2 in Years:
@@ -397,9 +394,9 @@ def find_through_every(A, M):  # Находит слова типа "через 
         for i in range(0, len(A), 1):
             if A[i] in Every:
                 M[7] = 'повтор'
-                if (y <= len(A) - 3) and (A[i + 1].isnumeric() == True):
-                    M[9] = A[i + 1]
-                    M[8] = A[i + 2]
+                if (y <= len(A) - 4) and (A[i + 1].isnumeric() == True):
+                    M[9] = A[i + 2]
+                    M[8] = A[i + 3]
                     G = M[8]
                     M[8] = G[0:3]
                     if G[0] == 'г':
@@ -409,7 +406,7 @@ def find_through_every(A, M):  # Находит слова типа "через 
                     if G[0] == 'н':
                         M[8] = 'дней'
                         M[9] = str(7 * int(A[y + 1]))
-                if y == len(A) - 3:
+                if y == len(A) - 2:
                     if A[i + 1] in Years:
                         M[8] = A[i + 1]
                         M[9] = '1'
@@ -743,6 +740,8 @@ def FIND(s,
     if M[3] == M[4] == '':
         M[3] = M[4] = '00'
     M = check_daytime(s, M)
+    if M[9] in Days:
+        M[9] = '7'
     return M
 
 print()
