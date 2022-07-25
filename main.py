@@ -755,14 +755,27 @@ def FIND(s,
     return M
 
 
-def print_result1(A):
-    print('{STATUS: SUCCESS , TEXT:', A[5], 'PARAMS: {}, DATE: {year:', A[0], ', month:', A[1], ', day:', A[2],
-          ', hour:', A[3], ', minute:', A[4], '}}')
+def print_result_1(A):
+    print('{"STATUS": SUCCESS , "TEXT":', A[5], '"PARAMS": {}, "DATE": {"year":', A[0], ', "month":', A[1], ', "day":',
+          A[2],
+          ', "hour":', A[3], ', "minute":', A[4], '}}')
 
 
-def print_result2(A):
-    print('{STATUS: SUCCESS , TEXT:', A[5], 'PARAMS: {', A[7], 'WEEKDAY', A[6])
+def print_result_2(A):
+    print('{"STATUS": SUCCESS , "TEXT":', A[5], '"PARAMS": {"WEEKDAY":', A[6], '}}')
 
+
+def print_result_3(A):
+    if A[8] == 'ден':
+        print('{"STATUS": SUCCESS , "TEXT":', A[5], '"PARAMS": {}, "DATE": "hour":', A[3], ', "minute":', A[4],
+              '"frequency"', A[9], '}}')
+    if A[8] == 'мес':
+        print('{"STATUS": SUCCESS , "TEXT":', A[5], '"PARAMS": {}, "DATE": "day":', A[2],
+              ', "hour":', A[3], ', "minute":', A[4], '"frequency"', A[9], '}}')
+    if (A[8] == 'год') or (A[8] == 'лет'):
+        print('{"STATUS": SUCCESS , "TEXT":', A[5], '"PARAMS": {}, "DATE": "month":', A[1],
+              ', "day":', A[2],
+              ', "hour":', A[3], ', "minute":', A[4], '"frequency"', A[9], '}}')
 
 print()
 print('Сегодняшняя дата: ', today)
@@ -772,7 +785,14 @@ s0 = input('Введите предложение, включающее дату
 print(s0)
 G = FIND(s0, List_of_Doing)
 if G[5] != '':
-    print_result1(G)
+    print(G)
+    if G[7] == 'нет повтора':
+        print_result_1(G)
+    if ((G[8] == 'ден') and (G[9] == '7')) or ((G[8] == 'нед') and (G[9] == '1')):
+        print_result_2(G)
+    else:
+        print('1')
+        print_result_3(G)
 
 # See PyCharm help at https://www.jetbrains.cm/help/pycharm/
 # quit()
