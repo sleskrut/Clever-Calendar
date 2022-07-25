@@ -785,13 +785,11 @@ s0 = input('Введите предложение, включающее дату
 print(s0)
 G = FIND(s0, List_of_Doing)
 if G[5] != '':
-    print(G)
     if G[7] == 'нет повтора':
         print_result_1(G)
     if ((G[8] == 'ден') and (G[9] == '7')) or ((G[8] == 'нед') and (G[9] == '1')):
         print_result_2(G)
     else:
-        print('1')
         print_result_3(G)
 
 # See PyCharm help at https://www.jetbrains.cm/help/pycharm/
