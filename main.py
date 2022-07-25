@@ -754,6 +754,10 @@ def FIND(s,
 
     return M
 
+
+def print_result1(A):
+    print('{STATUS: SUCCESS , TEXT:', A[5], 'PARAMS: {}, DATE: {year:', A[0], ', month:', A[1], ', day:', A[2],
+          ', hour:', A[3], ', minute:', A[4], '}}')
 print()
 print('Сегодняшняя дата: ', today)
 print()
@@ -762,7 +766,7 @@ s0 = input('Введите предложение, включающее дату
 print(s0)
 G = FIND(s0, List_of_Doing)
 if G[5] != '':
-    print(G)
+    print_result1(G)
 
 # See PyCharm help at https://www.jetbrains.cm/help/pycharm/
 # quit()
